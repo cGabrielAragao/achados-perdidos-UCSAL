@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import br.ucsal.achadosperdidos.dominio.objeto.ObjetoInvalidoException;
 import br.ucsal.achadosperdidos.dominio.objeto.ProvaObrigatoriaException;
 import br.ucsal.achadosperdidos.dominio.objeto.TransicaoInvalidaException;
+import br.ucsal.achadosperdidos.dominio.solicitacao.SolicitacaoInvalidaException;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
@@ -46,6 +47,13 @@ public class TratamentoGlobalDeExcecoes {
                                            RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("mensagemErro", ex.getMessage());
         return "redirect:" + telaDoObjetoDaRequisicao(request);
+    }
+
+    /** RF06/RN08: decisão ou conclusão não permitida no status atual da solicitação. */
+    @ExceptionHandler(SolicitacaoInvalidaException.class)
+    public String tratarSolicitacaoInvalida(SolicitacaoInvalidaException ex, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("mensagemErro", ex.getMessage());
+        return "redirect:/moderacao";
     }
 
     /** Objeto/local referenciado não existe (ex.: id inválido na URL ou no formulário). */

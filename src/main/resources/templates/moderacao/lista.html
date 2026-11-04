@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Moderação — Central de Achados e Perdidos</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+    <h1>Área de moderação</h1>
+
+    <div class="aviso" role="alert">
+        <strong>Atenção:</strong> esta área ainda não exige login. Qualquer pessoa com este link pode aprovar,
+        recusar ou concluir devoluções. O controle de acesso restrito a um moderador autenticado (RF08) ainda
+        não foi implementado — é um requisito desejável, previsto para depois do fluxo central.
+    </div>
+
+    <div class="erro" role="alert" th:if="${mensagemErro}" th:text="${mensagemErro}"></div>
+
+    <h2>Solicitações pendentes</h2>
+    <p th:if="${#lists.isEmpty(pendentes)}">Nenhuma solicitação pendente.</p>
+    <table th:unless="${#lists.isEmpty(pendentes)}">
+        <thead>
+        <tr>
+            <th>Objeto</th>
+            <th>Característica sensível (só o dono saberia)</th>
+            <th>Prova de posse informada</th>
+            <th>Solicitado em</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="s : ${pendentes}">
+            <td th:text="${s.descricaoPublica}"></td>
+            <td th:text="${s.caracteristicaSensivel}"></td>
+            <td th:text="${s.provaPosse}"></td>
+            <td th:text="${s.dataSolicitacao}"></td>
+            <td>
+                <form th:action="@{/moderacao/{id}/aprovar(id=${s.solicitacaoId})}" method="post" style="display:inline">
+                    <button type="submit">Aprovar</button>
+                </form>
+                <form th:action="@{/moderacao/{id}/recusar(id=${s.solicitacaoId})}" method="post" style="display:inline">
+                    <button type="submit">Recusar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h2>Aprovadas, aguardando devolução</h2>
+    <p th:if="${#lists.isEmpty(aprovadas)}">Nenhuma solicitação aprovada aguardando devolução.</p>
+    <table th:unless="${#lists.isEmpty(aprovadas)}">
+        <thead>
+        <tr>
+            <th>Objeto</th>
+            <th>Prova de posse</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="s : ${aprovadas}">
+            <td th:text="${s.descricaoPublica}"></td>
+            <td th:text="${s.provaPosse}"></td>
+            <td>
+                <form th:action="@{/moderacao/{id}/concluir(id=${s.solicitacaoId})}" method="post" style="display:inline">
+                    <button type="submit">Registrar devolução</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p><a th:href="@{/}">Voltar ao início</a></p>
+</body>
+</html>

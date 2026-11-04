@@ -17,8 +17,9 @@ import jakarta.persistence.Table;
 
 /**
  * Solicitação de recuperação de um {@link Objeto}, com a prova de posse
- * informada por quem acredita ser o dono (RF05). Nasce sempre PENDENTE; a
- * decisão do moderador (RF06/RF07) é tratada em um incremento posterior.
+ * informada por quem acredita ser o dono (RF05). Nasce sempre PENDENTE;
+ * {@link #aprovar()}/{@link #recusar()} são as únicas formas de decidi-la
+ * (RF06) — não há {@code setStatus} público.
  *
  * <p>O moderador que decide ainda não é modelado aqui: a autenticação
  * (RF08) é desejável e fica para depois do fluxo central completo.
@@ -88,5 +89,39 @@ public class SolicitacaoRecuperacao {
 
     public LocalDateTime getDataDecisao() {
         return dataDecisao;
+    }
+
+    /** RF06: só uma solicitação PENDENTE pode ser aprovada. */
+    public void aprovar() {
+        garantirPendente("aprovar");
+        this.status = StatusSolicitacao.APROVADA;
+        this.dataDecisao = LocalDateTime.now();
+    }
+
+    /** RF06: só uma solicitação PENDENTE pode ser recusada. */
+    public void recusar() {
+        garantirPendente("recusar");
+        this.status = StatusSolicitacao.RECUSADA;
+        this.dataDecisao = LocalDateTime.now();
+    }
+
+    /**
+     * RN08: a devolução só pode ser concluída (RF07) se esta solicitação
+     * estiver APROVADA. Fica aqui, não no service, porque é a própria
+     * solicitação quem sabe se já foi decidida e como (GRASP Information
+     * Expert).
+     */
+    public void garantirAprovada() {
+        if (status != StatusSolicitacao.APROVADA) {
+            throw new SolicitacaoInvalidaException(
+                    "Só é possível concluir a devolução de uma solicitação aprovada.");
+        }
+    }
+
+    private void garantirPendente(String acao) {
+        if (status != StatusSolicitacao.PENDENTE) {
+            throw new SolicitacaoInvalidaException(
+                    "Só é possível " + acao + " uma solicitação pendente.");
+        }
     }
 }
