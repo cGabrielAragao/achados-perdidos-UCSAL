@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar objeto encontrado — Central de Achados e Perdidos</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+    <h1>Registrar objeto encontrado</h1>
+
+    <form th:action="@{/objetos}" th:object="${formulario}" method="post">
+        <div>
+            <label for="categoria">Categoria</label>
+            <select id="categoria" th:field="*{categoria}">
+                <option value="">Selecione...</option>
+                <option th:each="c : ${categorias}" th:value="${c}" th:text="${c}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('categoria')}" th:errors="*{categoria}"></div>
+        </div>
+
+        <div>
+            <label for="descricaoPublica">Descrição pública</label>
+            <input type="text" id="descricaoPublica" th:field="*{descricaoPublica}">
+            <div th:if="${#fields.hasErrors('descricaoPublica')}" th:errors="*{descricaoPublica}"></div>
+        </div>
+
+        <div>
+            <label for="caracteristicaSensivel">
+                Característica sensível (só para conferir a prova de posse; nunca será exibida publicamente)
+            </label>
+            <input type="text" id="caracteristicaSensivel" th:field="*{caracteristicaSensivel}">
+            <div th:if="${#fields.hasErrors('caracteristicaSensivel')}" th:errors="*{caracteristicaSensivel}"></div>
+        </div>
+
+        <div>
+            <label for="localId">Local onde foi encontrado</label>
+            <select id="localId" th:field="*{localId}">
+                <option value="">Selecione...</option>
+                <option th:each="l : ${locais}" th:value="${l.id}" th:text="${l.nome}"></option>
+            </select>
+            <div th:if="${#fields.hasErrors('localId')}" th:errors="*{localId}"></div>
+        </div>
+
+        <div>
+            <label for="dataEncontro">Data em que foi encontrado</label>
+            <input type="date" id="dataEncontro" th:field="*{dataEncontro}">
+            <div th:if="${#fields.hasErrors('dataEncontro')}" th:errors="*{dataEncontro}"></div>
+        </div>
+
+        <button type="submit">Registrar</button>
+    </form>
+
+    <p><a th:href="@{/objetos}">Cancelar</a></p>
+</body>
+</html>

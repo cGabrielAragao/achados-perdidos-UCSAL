@@ -21,9 +21,11 @@ import jakarta.persistence.Table;
  * detalhe público (RN05); serve apenas para o moderador conferir a prova de
  * posse informada na solicitação de recuperação.
  *
- * <p>Não há {@code setStatus} público: neste incremento o status nasce
- * sempre {@code DISPONIVEL} (RN01) e as transições (padrão State) serão
- * implementadas no Incremento 3.
+ * <p>Não há {@code setStatus} público: o status nasce sempre
+ * {@code DISPONIVEL} (RN01) e as transições seguintes só ocorrem através do
+ * padrão State ({@link EstadoObjeto}), delegado pelos métodos de intenção
+ * ({@code solicitarRecuperacao}, {@code aprovarDevolucao},
+ * {@code recusarSolicitacao}, {@code confirmarRecuperado}).
  */
 @Entity
 @Table(name = "objeto")
@@ -63,6 +65,7 @@ public class Objeto {
 
     public Objeto(Categoria categoria, String descricaoPublica, String caracteristicaSensivel,
                    Local local, LocalDate dataEncontro) {
+        validar(categoria, descricaoPublica, caracteristicaSensivel, local, dataEncontro);
         this.categoria = categoria;
         this.descricaoPublica = descricaoPublica;
         this.caracteristicaSensivel = caracteristicaSensivel;
@@ -70,6 +73,32 @@ public class Objeto {
         this.dataEncontro = dataEncontro;
         this.status = StatusObjeto.DISPONIVEL;
         this.dataRegistro = LocalDateTime.now();
+    }
+
+    /**
+     * RN10: campos obrigatórios no registro; a data do encontro não pode
+     * ser futura.
+     */
+    private static void validar(Categoria categoria, String descricaoPublica, String caracteristicaSensivel,
+                                  Local local, LocalDate dataEncontro) {
+        if (categoria == null) {
+            throw new ObjetoInvalidoException("A categoria é obrigatória.");
+        }
+        if (descricaoPublica == null || descricaoPublica.isBlank()) {
+            throw new ObjetoInvalidoException("A descrição pública é obrigatória.");
+        }
+        if (caracteristicaSensivel == null || caracteristicaSensivel.isBlank()) {
+            throw new ObjetoInvalidoException("A característica sensível é obrigatória.");
+        }
+        if (local == null) {
+            throw new ObjetoInvalidoException("O local é obrigatório.");
+        }
+        if (dataEncontro == null) {
+            throw new ObjetoInvalidoException("A data do encontro é obrigatória.");
+        }
+        if (dataEncontro.isAfter(LocalDate.now())) {
+            throw new ObjetoInvalidoException("A data do encontro não pode ser futura.");
+        }
     }
 
     public Long getId() {

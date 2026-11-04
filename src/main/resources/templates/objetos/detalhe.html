@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhe do objeto — Central de Achados e Perdidos</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+    <h1>Detalhe do objeto</h1>
+
+    <dl>
+        <dt>Categoria</dt>
+        <dd th:text="${objeto.categoria}"></dd>
+
+        <dt>Descrição</dt>
+        <dd th:text="${objeto.descricaoPublica}"></dd>
+
+        <dt>Local onde foi encontrado</dt>
+        <dd th:text="${objeto.nomeLocal}"></dd>
+
+        <dt>Data do encontro</dt>
+        <dd th:text="${objeto.dataEncontro}"></dd>
+
+        <dt>Status</dt>
+        <dd th:text="${objeto.status}"></dd>
+    </dl>
+
+    <p><a th:href="@{/objetos}">Voltar à listagem</a></p>
+</body>
+</html>

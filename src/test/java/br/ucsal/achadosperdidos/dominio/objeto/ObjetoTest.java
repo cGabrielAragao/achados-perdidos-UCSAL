@@ -101,6 +101,27 @@ class ObjetoTest {
     }
 
     @Test
+    void construtorRejeitaDataDeEncontroFutura() {
+        assertThatThrownBy(() -> new Objeto(
+                Categoria.CHAVES, "desc", "sensivel", laboratorio, LocalDate.now().plusDays(1)))
+                .isInstanceOf(ObjetoInvalidoException.class);
+    }
+
+    @Test
+    void construtorRejeitaCamposObrigatoriosNulosOuEmBranco() {
+        assertThatThrownBy(() -> new Objeto(null, "desc", "sensivel", laboratorio, LocalDate.now()))
+                .isInstanceOf(ObjetoInvalidoException.class);
+        assertThatThrownBy(() -> new Objeto(Categoria.CHAVES, " ", "sensivel", laboratorio, LocalDate.now()))
+                .isInstanceOf(ObjetoInvalidoException.class);
+        assertThatThrownBy(() -> new Objeto(Categoria.CHAVES, "desc", " ", laboratorio, LocalDate.now()))
+                .isInstanceOf(ObjetoInvalidoException.class);
+        assertThatThrownBy(() -> new Objeto(Categoria.CHAVES, "desc", "sensivel", null, LocalDate.now()))
+                .isInstanceOf(ObjetoInvalidoException.class);
+        assertThatThrownBy(() -> new Objeto(Categoria.CHAVES, "desc", "sensivel", laboratorio, null))
+                .isInstanceOf(ObjetoInvalidoException.class);
+    }
+
+    @Test
     void recuperadoEhEstadoFinalQueNaoAceitaNenhumaTransicao() {
         Objeto objeto = novoObjetoDisponivel();
         objeto.solicitarRecuperacao("prova qualquer");
