@@ -8,6 +8,8 @@
 <body>
     <h1>Registrar objeto encontrado</h1>
 
+    <div class="erro" role="alert" th:if="${mensagemErro}" th:text="${mensagemErro}"></div>
+
     <form th:action="@{/objetos}" th:object="${formulario}" method="post">
         <div>
             <label for="categoria">Categoria</label>

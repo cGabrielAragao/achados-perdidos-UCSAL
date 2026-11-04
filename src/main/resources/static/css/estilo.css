@@ -3,3 +3,18 @@ body {
     margin: 2rem;
     color: #222;
 }
+
+/*
+ * Alerta de erro: usa borda grossa + rótulo em texto, não só a cor de
+ * fundo, para permanecer legível também para quem não distingue cores
+ * (RNF06 - acessibilidade).
+ */
+.erro {
+    border: 2px solid #8a1f11;
+    background-color: #fdecea;
+    color: #611a15;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    border-radius: 4px;
+    font-weight: bold;
+}

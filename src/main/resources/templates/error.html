@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Não foi possível concluir — Central de Achados e Perdidos</title>
+    <link rel="stylesheet" th:href="@{/css/estilo.css}">
+</head>
+<body>
+    <h1>Não foi possível concluir essa ação</h1>
+
+    <div class="erro" role="alert">
+        <p th:if="${mensagem}" th:text="${mensagem}"></p>
+        <p th:unless="${mensagem}">Ocorreu um erro inesperado. Tente novamente em alguns instantes.</p>
+    </div>
+
+    <p>
+        <a th:href="@{/objetos}">Ver objetos disponíveis</a>
+        ·
+        <a th:href="@{/}">Voltar ao início</a>
+    </p>
+</body>
+</html>

@@ -8,6 +8,8 @@
 <body>
     <h1>Detalhe do objeto</h1>
 
+    <div class="erro" role="alert" th:if="${mensagemErro}" th:text="${mensagemErro}"></div>
+
     <dl>
         <dt>Categoria</dt>
         <dd th:text="${objeto.categoria}"></dd>
