@@ -25,6 +25,18 @@
         <dd th:text="${objeto.status}"></dd>
     </dl>
 
+    <section th:if="${objeto.status.name() == 'DISPONIVEL'}">
+        <h2>Acha que esse objeto é seu?</h2>
+        <form th:action="@{/objetos/{id}/solicitacoes(id=${objeto.id})}" method="post">
+            <label for="provaPosse">Descreva uma característica que só o dono saberia (prova de posse)</label>
+            <textarea id="provaPosse" name="provaPosse" required></textarea>
+            <button type="submit">Solicitar recuperação</button>
+        </form>
+    </section>
+    <p th:unless="${objeto.status.name() == 'DISPONIVEL'}">
+        Este objeto não está disponível para solicitação de recuperação no momento.
+    </p>
+
     <p><a th:href="@{/objetos}">Voltar à listagem</a></p>
 </body>
 </html>
