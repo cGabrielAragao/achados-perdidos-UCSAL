@@ -103,4 +103,43 @@ public class Objeto {
     public LocalDateTime getDataRegistro() {
         return dataRegistro;
     }
+
+    /**
+     * RF05/RN03/RN04: abre uma solicitação de recuperação. Exige prova de
+     * posse e só é aceita se não houver outra solicitação pendente.
+     */
+    public void solicitarRecuperacao(String provaPosse) {
+        if (provaPosse == null || provaPosse.isBlank()) {
+            throw new ProvaObrigatoriaException();
+        }
+        getEstado().aoSolicitar(this);
+    }
+
+    /** RF06/RN06: moderador aprova a solicitação pendente. */
+    public void aprovarDevolucao() {
+        getEstado().aoAprovar(this);
+    }
+
+    /** RF06/RN07: moderador recusa a solicitação; objeto volta a DISPONIVEL. */
+    public void recusarSolicitacao() {
+        getEstado().aoRecusar(this);
+    }
+
+    /** RF07/RN08: conclui a devolução; objeto passa a RECUPERADO (estado final). */
+    public void confirmarRecuperado() {
+        getEstado().aoRecuperar(this);
+    }
+
+    private EstadoObjeto getEstado() {
+        return EstadoObjetoFactory.paraStatus(this.status);
+    }
+
+    /**
+     * Único ponto de mutação do status, usado exclusivamente pelos estados
+     * (mesmo pacote). Não há {@code setStatus} público: nenhuma camada
+     * externa pode pular uma transição.
+     */
+    void transicionarPara(StatusObjeto novoStatus) {
+        this.status = novoStatus;
+    }
 }
