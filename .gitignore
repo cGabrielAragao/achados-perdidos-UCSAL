@@ -1,0 +1,26 @@
+target/
+*.class
+
+# Maven wrapper bootstrap cache (mantemos o script e as properties versionados)
+.mvn/wrapper/maven-wrapper.jar
+
+# Banco H2 em arquivo (dados locais, não versionar)
+data/
+*.mv.db
+*.trace.db
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+out/
+
+# SO
+Thumbs.db
+.DS_Store
+
+# Logs locais
+*.log
