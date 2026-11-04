@@ -1,16 +1,14 @@
 package br.ucsal.achadosperdidos.infraestrutura;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import br.ucsal.achadosperdidos.dominio.objeto.Objeto;
-import br.ucsal.achadosperdidos.dominio.objeto.StatusObjeto;
 
 /**
- * Repositório JPA para {@link Objeto}.
+ * Repositório JPA para {@link Objeto}. Estende {@link JpaSpecificationExecutor}
+ * para aceitar as {@code Specification} montadas pelas estratégias de busca
+ * (padrão Strategy) em {@code dominio.objeto.busca} — RF03.
  */
-public interface ObjetoRepository extends JpaRepository<Objeto, Long> {
-
-    List<Objeto> findByStatus(StatusObjeto status);
+public interface ObjetoRepository extends JpaRepository<Objeto, Long>, JpaSpecificationExecutor<Objeto> {
 }

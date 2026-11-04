@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.ucsal.achadosperdidos.aplicacao.ObjetoDetalheDTO;
@@ -17,9 +18,9 @@ import br.ucsal.achadosperdidos.aplicacao.ObjetoService;
 import br.ucsal.achadosperdidos.dominio.objeto.Categoria;
 
 /**
- * Controller fino para registro, listagem e detalhe de objetos
- * (RF01/RF02/RF04). A regra de negócio e a montagem dos DTOs ficam no
- * {@link ObjetoService}.
+ * Controller fino para registro, listagem (com filtros), e detalhe de
+ * objetos (RF01/RF02/RF03/RF04). A regra de negócio, a composição dos
+ * filtros de busca e a montagem dos DTOs ficam no {@link ObjetoService}.
  */
 @Controller
 @RequestMapping("/objetos")
@@ -32,8 +33,14 @@ public class ObjetoController {
     }
 
     @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("objetos", objetoService.listarDisponiveis());
+    public String listar(@RequestParam(required = false) Categoria categoria,
+                          @RequestParam(required = false) Long localId,
+                          Model model) {
+        model.addAttribute("objetos", objetoService.listarDisponiveis(categoria, localId));
+        model.addAttribute("categorias", Categoria.values());
+        model.addAttribute("locais", objetoService.listarLocais());
+        model.addAttribute("categoriaSelecionada", categoria);
+        model.addAttribute("localSelecionado", localId);
         return "objetos/lista";
     }
 

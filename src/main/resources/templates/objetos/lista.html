@@ -9,7 +9,30 @@
     <h1>Objetos disponíveis</h1>
     <p><a th:href="@{/objetos/novo}">Registrar objeto encontrado</a></p>
 
-    <p th:if="${#lists.isEmpty(objetos)}">Nenhum objeto disponível no momento.</p>
+    <form method="get" th:action="@{/objetos}">
+        <label for="categoria">Categoria</label>
+        <select id="categoria" name="categoria">
+            <option value="">Todas</option>
+            <option th:each="c : ${categorias}"
+                    th:value="${c}"
+                    th:selected="${c == categoriaSelecionada}"
+                    th:text="${c}"></option>
+        </select>
+
+        <label for="localId">Local</label>
+        <select id="localId" name="localId">
+            <option value="">Todos</option>
+            <option th:each="l : ${locais}"
+                    th:value="${l.id}"
+                    th:selected="${l.id == localSelecionado}"
+                    th:text="${l.nome}"></option>
+        </select>
+
+        <button type="submit">Filtrar</button>
+        <a th:href="@{/objetos}">Limpar filtros</a>
+    </form>
+
+    <p th:if="${#lists.isEmpty(objetos)}">Nenhum objeto disponível com esse filtro.</p>
 
     <table th:unless="${#lists.isEmpty(objetos)}">
         <thead>
