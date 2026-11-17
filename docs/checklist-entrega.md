@@ -6,7 +6,7 @@ Marque cada item ao concluir. Os de prioridade **alta** são os que mais pesam n
 
 ## 1. Repositório e código
 - [ ] Projeto (código `src/`, `pom.xml`, `mvnw`/`mvnw.cmd`) enviado ao GitHub
-- [ ] `docs/`, `diagrams/`, `demo/`, `README.md` e `CLAUDE_CODE_GUIDE.md` versionados
+- [ ] `docs/`, `diagrams/`, `demo/` e `README.md` versionados
 - [ ] `.gitignore` ativo (sem `target/`, sem `data/*.db`, sem segredos)
 - [ ] Repositório acessível aos colegas/professor (visibilidade conferida)
 - [ ] Último commit reflete a versão final (código + docs)
