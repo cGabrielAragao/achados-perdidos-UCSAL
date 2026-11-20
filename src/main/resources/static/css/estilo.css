@@ -1,30 +1,243 @@
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 2rem;
-    color: #222;
+/*
+ * Central de Achados e Perdidos — UCSal
+ * Folha de estilo institucional: minimalista, sóbria, sem gradientes,
+ * sem sombras pesadas e sem elementos decorativos. Usa a fonte do
+ * sistema (não depende de internet) para rodar bem offline na mostra.
+ */
+
+:root {
+    --cor-fundo: #eef1f4;          /* fundo da página (cinza frio claro) */
+    --cor-folha: #ffffff;          /* "folha" de conteúdo */
+    --cor-marca: #1f3b63;          /* azul-marinho institucional */
+    --cor-marca-escura: #16304f;   /* hover de ações */
+    --cor-texto: #1f2a37;          /* texto principal */
+    --cor-texto-suave: #5b6673;    /* texto secundário / rótulos */
+    --cor-borda: #e2e6ea;          /* linhas e divisórias */
+    --cor-borda-campo: #cdd3da;    /* bordas de campos de formulário */
+    --cor-cabecalho-tabela: #f4f6f8;
+    --cor-linha-hover: #f8fafb;
+    --raio: 6px;
 }
+
+* { box-sizing: border-box; }
+
+html {
+    background: var(--cor-fundo);
+}
+
+body {
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    color: var(--cor-texto);
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 940px;
+    margin: 32px auto;
+    padding: 40px 48px 56px;
+    background: var(--cor-folha);
+    border-top: 4px solid var(--cor-marca);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 1px 3px rgba(16, 24, 40, 0.06);
+}
+
+/* Cabeçalho de marca, consistente em todas as páginas (sem editar templates). */
+body::before {
+    content: "Central de Achados e Perdidos · UCSal";
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--cor-marca);
+    padding-bottom: 18px;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+h1 {
+    font-size: 1.7rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 0 0 1rem;
+}
+
+h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #243b53;
+    margin: 2rem 0 0.75rem;
+}
+
+p { margin: 0.6rem 0; }
+
+a {
+    color: var(--cor-marca);
+    text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* ---------- Formulários ---------- */
+
+label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: #243b53;
+    margin: 1rem 0 0.35rem;
+}
+
+input, select, textarea {
+    font: inherit;
+    color: var(--cor-texto);
+    width: 100%;
+    max-width: 460px;
+    padding: 0.55rem 0.65rem;
+    background: #fff;
+    border: 1px solid var(--cor-borda-campo);
+    border-radius: var(--raio);
+}
+
+textarea {
+    min-height: 96px;
+    resize: vertical;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--cor-marca);
+    box-shadow: 0 0 0 3px rgba(31, 59, 99, 0.15);
+}
+
+/* Mensagens de validação de campo do Thymeleaf (div com th:errors). */
+form div > div {
+    color: #b42318;
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+}
+
+/* ---------- Botões ---------- */
+
+button {
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #fff;
+    background: var(--cor-marca);
+    border: 1px solid var(--cor-marca);
+    padding: 0.55rem 1.15rem;
+    border-radius: var(--raio);
+    cursor: pointer;
+    margin-top: 1.1rem;
+}
+button:hover { background: var(--cor-marca-escura); border-color: var(--cor-marca-escura); }
+
+/* "Recusar" fica como ação secundária (contorno), para não competir com "Aprovar". */
+form[action*="recusar"] button {
+    background: #fff;
+    color: var(--cor-marca);
+}
+form[action*="recusar"] button:hover { background: var(--cor-cabecalho-tabela); }
+
+/* Botões dentro de tabelas (ações de moderação) ficam compactos e alinhados. */
+td button { margin: 0.15rem 0.4rem 0.15rem 0; padding: 0.4rem 0.8rem; }
+
+/* ---------- Tabelas ---------- */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.25rem 0;
+    font-size: 0.95rem;
+}
+
+thead th {
+    text-align: left;
+    background: var(--cor-cabecalho-tabela);
+    color: #243b53;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+tbody td {
+    padding: 0.7rem 0.8rem;
+    border-bottom: 1px solid #eef1f4;
+    vertical-align: top;
+}
+
+tbody tr:hover { background: var(--cor-linha-hover); }
+
+/* ---------- Lista de definições (detalhe do objeto) ---------- */
+
+dl {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    margin: 1.25rem 0;
+}
+
+dt {
+    color: var(--cor-texto-suave);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    padding: 0.6rem 0;
+}
+
+dd {
+    margin: 0;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #eef1f4;
+}
+
+/* Seção do formulário de solicitação (detalhe). */
+section {
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--cor-borda);
+}
+
+/* ---------- Avisos e erros ---------- */
 
 /*
- * Alerta de erro: usa borda grossa + rótulo em texto, não só a cor de
- * fundo, para permanecer legível também para quem não distingue cores
- * (RNF06 - acessibilidade).
+ * Não dependem só da cor: têm barra lateral, rótulo em texto e role="alert".
+ * (RNF06 — acessibilidade.)
  */
 .erro {
-    border: 2px solid #8a1f11;
-    background-color: #fdecea;
-    color: #611a15;
-    padding: 0.75rem 1rem;
-    margin: 1rem 0;
-    border-radius: 4px;
-    font-weight: bold;
+    border: 1px solid #d9b1ab;
+    border-left: 4px solid #b42318;
+    background: #fdf2f1;
+    color: #7a271a;
+    padding: 0.8rem 1rem;
+    margin: 1.1rem 0;
+    border-radius: var(--raio);
+    font-weight: 500;
 }
 
-/* Aviso informativo (não é um erro): mesma lógica de contraste do .erro. */
 .aviso {
-    border: 2px solid #8a6d1f;
-    background-color: #fdf6e3;
-    color: #5c4813;
-    padding: 0.75rem 1rem;
-    margin: 1rem 0;
-    border-radius: 4px;
+    border: 1px solid #e4d9a8;
+    border-left: 4px solid #b88a1b;
+    background: #fdfaf0;
+    color: #6b5415;
+    padding: 0.8rem 1rem;
+    margin: 1.1rem 0;
+    border-radius: var(--raio);
+}
+.aviso strong { color: #5c4813; }
+
+/* ---------- Telas menores ---------- */
+
+@media (max-width: 620px) {
+    body {
+        margin: 0;
+        padding: 24px 18px 36px;
+        border-radius: 0;
+        max-width: none;
+    }
+    dl { grid-template-columns: 1fr; }
+    dt { padding-bottom: 0; }
+    dd { padding-top: 0.2rem; }
+    input, select, textarea { max-width: none; }
 }

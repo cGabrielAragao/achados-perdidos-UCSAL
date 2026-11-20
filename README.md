@@ -38,8 +38,15 @@ Conceitos de POOA aplicados (State no ciclo de vida do objeto, Strategy nos filt
 
 ## Pré-requisitos
 
-- **JDK 21** instalado (`java -version` deve indicar 21).
-- Não é necessário instalar Maven nem banco de dados — o wrapper (`mvnw`/`mvnw.cmd`) e o H2 embutido cuidam disso.
+- **JDK 21** instalado. Confira com `java -version` (deve indicar 21; qualquer versão **17+** roda, mas o projeto é compilado para 21).
+- O `mvnw`/`mvnw.cmd` usa o Java apontado por **`JAVA_HOME`** (ou o `java` do PATH). Garanta que aponta para o JDK 21 — no Windows, `echo %JAVA_HOME%`.
+- Não é necessário instalar Maven nem banco de dados — o wrapper e o H2 embutido cuidam disso.
+
+> **Erro "class file version 61.0 ... up to 55.0"?** O Maven rodou com um Java antigo (11). O projeto precisa de Java 17+ (usamos 21): instale o JDK 21 e ajuste o `JAVA_HOME` para apontar para ele. No Windows (sessão atual do terminal):
+> ```
+> set JAVA_HOME=C:\Program Files\Eclipse Adoptium\jdk-21
+> ```
+> (ajuste o caminho para onde o JDK 21 está instalado) e rode o `mvnw.cmd` de novo.
 
 ## Como executar
 
@@ -98,7 +105,7 @@ Passo a passo para reproduzir o fluxo central (ideal para a demonstração): [`d
 - Sem autenticação: a moderação está aberta (RF08 — desejável).
 - Sem upload de imagem (RF09) e sem histórico de movimentações persistido em tela (RF10).
 - Verificação de posse é **processual** (o moderador compara a prova com a característica sensível), não automática.
-- Validação do problema baseada em survey (n=18, só estudantes); entrevistas complementares em andamento (ver Anexo B).
+- Validação do problema baseada em survey (n=18, só estudantes) + entrevista com funcionário do achados-e-perdidos (ver Anexo B).
 
 ## Fontes, licenças, componentes de terceiros e uso de IA
 
@@ -113,13 +120,15 @@ Componentes de terceiros (bibliotecas de código aberto, usadas conforme suas li
 | AssertJ | Apache-2.0 |
 | Mockito | MIT |
 
-**Uso de inteligência artificial** e detalhamento dos componentes: ver a declaração obrigatória em [`docs/declaracao-ia-terceiros.md`](docs/declaracao-ia-terceiros.md) (Anexo E).
+**Uso de inteligência artificial** e detalhamento dos componentes: ver a declaração obrigatória (Anexo E), entregue como documento próprio em [`docs/declaracao-ia.pdf`](docs/declaracao-ia.pdf).
+
+**Vídeo de contingência:** gravação curta do fluxo principal, entregue junto da submissão no Classroom (fora do repositório por tamanho). _[inserir link aqui, se hospedado]_
 
 ---
 
 # Anexos da entrega
 
-> Os Anexos A–D estão incorporados abaixo (modelos do manual, com as informações identificáveis). O **Anexo E** — declaração de uso de IA e de terceiros — é entregue como **documento próprio**, por exigência do manual: ver `docs/declaracao-ia-terceiros.md`.
+> Os Anexos A–D estão incorporados abaixo (modelos do manual, com as informações identificáveis). O **Anexo E** — declaração de uso de IA e de terceiros — é entregue como **documento próprio**, por exigência do manual: ver `docs/declaracao-ia.pdf`.
 
 ## Anexo A — Ficha do problema
 
@@ -147,8 +156,8 @@ Componentes de terceiros (bibliotecas de código aberto, usadas conforme suas li
 | 03/11/2026 — 18 estudantes (pesquisa) | O processo atual é desorganizado/ineficiente | Eficiência média 3,7/5; 73% recuperam sem dificuldade | **Alterar** — foco muda para devolução segura |
 | 03/11/2026 — 18 estudantes (pesquisa) | A comunidade usaria um sistema centralizado | Uso declarado 4,6/5 | Manter com ressalva (intenção declarada) |
 | 03/11/2026 — 18 estudantes (pesquisa) | Verificação de posse é importante | 89% "acho importante" | Manter |
-| __/__/____ — entrevista (5 min) | _(a coletar)_ | _(a coletar)_ | _(a definir)_ |
-| __/__/____ — portaria/achados-e-perdidos | _(a coletar)_ | _(a coletar)_ | _(a definir)_ |
+| 19/11/2026 — funcionário do achados-e-perdidos | Como funciona o registro e a guarda hoje | Registro em papel (local + horário); itens guardados numa sala; devolução por perguntas (dia, local, marca, identificação) e mostrando os itens ao aluno | Confirma a informalidade e a dispersão do registro |
+| 19/11/2026 — funcionário do achados-e-perdidos | Hoje não há verificação de posse na devolução | Não têm como saber o dono; na correria são "pegos de surpresa" e, como a maioria é aluno, não fazem verificação a fundo da posse | Confirma e fortalece o foco em devolução segura |
 
 **Síntese dos aprendizados:** a localização já funciona pelos canais atuais; a fragilidade real está na devolução sem controle de posse e na dispersão dos registros.
 **Mudanças realizadas no problema ou na solução:** o problema foi reenquadrado de "processo desorganizado" para "devolução segura e registro centralizado"; o escopo do MVP foi mantido, agora ancorado em evidência.
